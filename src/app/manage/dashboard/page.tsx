@@ -232,7 +232,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
               Create, update progress, and publish live milestone notices for your clients.
             </p>
           </div>
-          <a href="#new-project" className="button button-blue">
+          <a href="#new-project" className="button button-dark">
             <Plus size={16} /> New Project
           </a>
         </div>
@@ -278,22 +278,29 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
                     <code style={{
-                      background: "#e8efff",
-                      color: "var(--blue)",
+                      background: "#f4f5f7",
+                      color: "var(--ink)",
                       fontWeight: 800,
                       padding: "4px 8px",
                       borderRadius: "6px",
-                      fontSize: "12px"
+                      fontSize: "12px",
+                      border: "1px solid var(--line)"
                     }}>
                       {p.id}
                     </code>
-                    <span className="pill pill-blue" style={{ padding: "4px 10px", fontSize: "10px" }}>
-                      <span className="status-dot" /> {p.status}
+                    <span className="pill" style={{
+                      padding: "4px 10px",
+                      fontSize: "10px",
+                      background: "#fff1f0",
+                      color: "#b91c1c",
+                      border: "1px solid #ffd4d2"
+                    }}>
+                      <span className="status-dot" style={{ background: "#d3383b" }} /> {p.status}
                     </span>
                   </div>
                   <h3 style={{ font: "800 22px Manrope, sans-serif", margin: "4px 0" }}>{p.name}</h3>
                   <div style={{ fontSize: "11px", color: "var(--muted)", display: "flex", gap: "14px", marginTop: "4px", flexWrap: "wrap" }}>
-                    <span>Target: <a href={p.url} target="_blank" rel="noreferrer" style={{ color: "var(--blue)" }}>{p.url}</a></span>
+                    <span>Target: <a href={p.url} target="_blank" rel="noreferrer" style={{ color: "#b91c1c", fontWeight: 600 }}>{p.url}</a></span>
                     <span>•</span>
                     {p.next_meeting && (
                       <>
@@ -321,21 +328,67 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                 </div>
               </div>
 
-              {/* Progress Bar */}
-              <div style={{ marginBottom: "20px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", fontWeight: 700, marginBottom: "6px" }}>
-                  <span>Progress Completion</span>
-                  <span style={{ color: "var(--blue)" }}>{p.progress}%</span>
+              {/* Milestone Progress Track */}
+              <div style={{ marginBottom: "22px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "11px", fontWeight: 700, marginBottom: "8px", flexWrap: "wrap", gap: "6px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ color: "var(--ink)", letterSpacing: "0.02em" }}>Milestone Progress</span>
+                    <span style={{
+                      fontSize: "10px",
+                      fontWeight: 800,
+                      background: p.progress >= 100 ? "#e6f8ee" : "#fff1f0",
+                      color: p.progress >= 100 ? "#1b9b58" : "#b91c1c",
+                      border: `1px solid ${p.progress >= 100 ? "#b7edd0" : "#ffd4d2"}`,
+                      padding: "2px 8px",
+                      borderRadius: "6px"
+                    }}>
+                      {p.progress >= 100
+                        ? "Completed"
+                        : p.progress >= 80
+                        ? "Phase 05 · Final Delivery"
+                        : p.progress >= 60
+                        ? "Phase 04 · QA & Testing"
+                        : p.progress >= 40
+                        ? "Phase 03 · Development"
+                        : p.progress >= 20
+                        ? "Phase 02 · UI/UX Design"
+                        : "Phase 01 · Discovery"}
+                    </span>
+                  </div>
+                  <span style={{
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: 800,
+                    fontSize: "13px",
+                    color: p.progress >= 100 ? "#1b9b58" : "#b91c1c"
+                  }}>
+                    {p.progress}%
+                  </span>
                 </div>
-                <div className="progress-track" style={{ height: "8px" }}>
-                  <div style={{ width: `${p.progress}%` }} />
+                <div className="segmented-progress-track">
+                  {[1, 2, 3, 4, 5].map((step) => {
+                    const stepMin = (step - 1) * 20;
+                    const fill = Math.max(0, Math.min(100, ((p.progress - stepMin) / 20) * 100));
+                    return (
+                      <div key={step} className="progress-segment" title={`Phase ${step}: ${step * 20}%`}>
+                        <div
+                          className="progress-segment-fill"
+                          style={{
+                            width: `${fill}%`,
+                            background: p.progress >= 100
+                              ? "linear-gradient(90deg, #1b9b58, #22c55e)"
+                              : "linear-gradient(90deg, #b91c1c, #e03131)"
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Quick Update Form */}
               {isSupabaseConfigured && (
                 <details style={{ marginTop: "16px", borderTop: "1px solid var(--line)", paddingTop: "14px" }}>
-                  <summary style={{ cursor: "pointer", fontSize: "12px", fontWeight: 700, color: "var(--blue)" }}>
+                  <summary style={{ cursor: "pointer", fontSize: "12px", fontWeight: 700, color: "var(--ink)" }}>
                     Update Project Status & Notes
                   </summary>
                   <form action={updateProjectAction} style={{ marginTop: "16px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>

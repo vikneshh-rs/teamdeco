@@ -160,8 +160,12 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
             </div>
 
             <div className="elite-status-block">
-              <span className="pill pill-blue">
-                <span className="status-dot" /> {project.status}
+              <span className="pill" style={{
+                background: "#fff1f0",
+                color: "#b91c1c",
+                border: "1px solid #ffd4d2"
+              }}>
+                <span className="status-dot" style={{ background: "#d3383b" }} /> {project.status}
               </span>
               <span className="elite-tier-label">VIP Concierge Tier</span>
             </div>
@@ -172,8 +176,24 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
           <article className="stat-card glass">
             <small>OVERALL PROGRESS</small>
             <div className="stat-number">{project.progress}<span>%</span></div>
-            <div className="progress-track">
-              <div style={{ width: `${project.progress}%` }} />
+            <div className="segmented-progress-track" style={{ marginTop: "12px", marginBottom: "8px" }}>
+              {[1, 2, 3, 4, 5].map((step) => {
+                const stepMin = (step - 1) * 20;
+                const fill = Math.max(0, Math.min(100, ((project.progress - stepMin) / 20) * 100));
+                return (
+                  <div key={step} className="progress-segment" title={`Phase ${step}: ${step * 20}%`}>
+                    <div
+                      className="progress-segment-fill"
+                      style={{
+                        width: `${fill}%`,
+                        background: project.progress >= 100
+                          ? "linear-gradient(90deg, #1b9b58, #22c55e)"
+                          : "linear-gradient(90deg, #b91c1c, #e03131)"
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
             <p>Work currently underway</p>
           </article>
