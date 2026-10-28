@@ -1,5 +1,6 @@
-import { Layers3, LockKeyhole, ArrowUpRight, AlertCircle, ShieldCheck } from "lucide-react";
+import { LockKeyhole, ArrowUpRight, AlertCircle, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { verifyAdminSession } from "@/lib/auth";
 import { loginAction } from "./actions";
@@ -19,9 +20,15 @@ export default async function ManageLogin({
   return (
     <main className="manage-bg">
       <div className="login-card glass">
-        <Link href="/" className="brand">
-          <span className="brand-mark"><Layers3 size={20} /></span>
-          Team DeCo
+        <Link href="/" className="brand" aria-label="Team DeCo Home">
+          <Image
+            src="/logo.png"
+            alt="DeCo - Crafting Digital Excellence"
+            width={103}
+            height={42}
+            priority
+            className="brand-logo-img"
+          />
         </Link>
         <div className="login-icon">
           <LockKeyhole size={24} />

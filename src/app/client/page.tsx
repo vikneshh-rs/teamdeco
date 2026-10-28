@@ -1,9 +1,16 @@
-import { Layers3, Search, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Search, ArrowUpRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ClientLookup() {
   return <main className="portal-bg">
-    <header className="portal-top"><Link href="/" className="brand"><span className="brand-mark"><Layers3 size={19}/></span>Team DeCo</Link><span className="top-label">CLIENT PROJECT PORTAL</span><Link href="/" className="text-link">Main website ↗</Link></header>
+    <header className="portal-top">
+      <Link href="/" className="brand" aria-label="Team DeCo Home">
+        <Image src="/logo.png" alt="DeCo - Crafting Digital Excellence" width={103} height={42} priority className="brand-logo-img" />
+      </Link>
+      <span className="top-label">CLIENT PROJECT PORTAL</span>
+      <Link href="/" className="text-link">Main website ↗</Link>
+    </header>
     <section className="lookup-wrap">
       <div className="eyebrow"><span className="status-dot"></span> PROJECT TRACKING</div>
       <h1>Your project.<br/><span>Your progress.</span></h1>

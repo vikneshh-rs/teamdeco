@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Layers3, Sparkles } from "lucide-react";
 
 export default function Home() {
   return <main className="marketing-shell">
     <nav className="topbar glass">
-      <Link href="/" className="brand"><span className="brand-mark"><Layers3 size={20}/></span>Team DeCo</Link>
+      <Link href="/" className="brand" aria-label="Team DeCo Home"><Image src="/logo.png" alt="DeCo - Crafting Digital Excellence" width={103} height={42} priority className="brand-logo-img" /></Link>
       <div className="nav-links"><a href="#services">Services</a><a href="#work">Our work</a><Link href="/client">Client portal</Link></div>
       <Link className="button button-dark" href="/client">Track a project <ArrowUpRight size={16}/></Link>
     </nav>
@@ -17,6 +18,6 @@ export default function Home() {
     </section>
     <section className="service-strip" id="services"><div><small>01 / STRATEGY</small><h3>Think clearly.</h3><p>Product direction, discovery and digital strategy.</p></div><div><small>02 / DESIGN</small><h3>Design boldly.</h3><p>Brand, UX and interfaces built around people.</p></div><div><small>03 / BUILD</small><h3>Build thoughtfully.</h3><p>Websites, software and AI-powered workflows.</p></div></section>
     <section className="bottom-cta" id="work"><div><small>YOUR PROJECT, IN VIEW</small><h2>Great work deserves<br/>clear progress.</h2></div><Link className="button button-dark" href="/client">Open client portal <ArrowUpRight size={16}/></Link></section>
-    <footer><Link href="/" className="brand"><span className="brand-mark"><Layers3 size={17}/></span>Team DeCo</Link><span>© {new Date().getFullYear()} Team DeCo</span><Link href="/manage">Team access</Link></footer>
+    <footer><Link href="/" className="brand" aria-label="Team DeCo Home"><Image src="/logo.png" alt="DeCo - Crafting Digital Excellence" width={90} height={36} className="brand-logo-img" /></Link><span>© {new Date().getFullYear()} Team DeCo</span><Link href="/manage">Team access</Link></footer>
   </main>;
 }

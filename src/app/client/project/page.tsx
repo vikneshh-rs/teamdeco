@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Layers3, Globe2, MessageCircle, PhoneCall, CalendarDays } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Globe2, MessageCircle, PhoneCall, CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 interface MilestoneItem {
@@ -98,9 +99,8 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
     return (
       <main className="portal-bg">
         <header className="portal-top">
-          <Link href="/" className="brand">
-            <span className="brand-mark"><Layers3 size={19} /></span>
-            Team DeCo
+          <Link href="/" className="brand" aria-label="Team DeCo Home">
+            <Image src="/logo.png" alt="DeCo - Crafting Digital Excellence" width={103} height={42} priority className="brand-logo-img" />
           </Link>
           <span className="top-label">CLIENT PROJECT PORTAL</span>
         </header>
@@ -119,9 +119,8 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
   return (
     <main className="portal-bg project-bg">
       <header className="portal-top">
-        <Link href="/" className="brand">
-          <span className="brand-mark"><Layers3 size={19} /></span>
-          Team DeCo
+        <Link href="/" className="brand" aria-label="Team DeCo Home">
+          <Image src="/logo.png" alt="DeCo - Crafting Digital Excellence" width={103} height={42} priority className="brand-logo-img" />
         </Link>
         <span className="top-label">PROJECT OVERVIEW / {project.id}</span>
         <Link href="/client" className="text-link">← All projects</Link>

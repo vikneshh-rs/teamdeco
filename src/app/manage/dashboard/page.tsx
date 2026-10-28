@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import {
-  Layers3,
   LogOut,
   Plus,
   ArrowUpRight,
@@ -88,9 +88,15 @@ export default async function AdminDashboard({
     <main className="portal-bg" style={{ minHeight: "100vh", paddingBottom: "60px" }}>
       {/* Top Header */}
       <header className="portal-top">
-        <Link href="/" className="brand">
-          <span className="brand-mark"><Layers3 size={19} /></span>
-          Team DeCo
+        <Link href="/" className="brand" aria-label="Team DeCo Home">
+          <Image
+            src="/logo.png"
+            alt="DeCo - Crafting Digital Excellence"
+            width={103}
+            height={42}
+            priority
+            className="brand-logo-img"
+          />
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <span className="top-label">MANAGEMENT CONSOLE</span>
