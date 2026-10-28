@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Layers3, Globe2, MessageCircle, PhoneCall } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Layers3, Globe2, MessageCircle, PhoneCall, CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 interface MilestoneItem {
@@ -18,6 +18,7 @@ interface ProjectData {
   url: string;
   updateTitle: string;
   updateNotes: string;
+  nextMeeting?: string;
   milestones: MilestoneItem[];
 }
 
@@ -30,6 +31,7 @@ const fallbackDemo: ProjectData = {
   url: "https://vercel.com",
   updateTitle: "Development is underway",
   updateNotes: "Milestone progress and project notes will appear here as Team DeCo publishes updates.",
+  nextMeeting: "Thursday · 4:00 PM IST",
   milestones: [
     { name: "Discovery & requirements", date: "Phase 01", state: "done", detail: "Scope and requirements confirmed" },
     { name: "UI/UX design", date: "Phase 02", state: "done", detail: "Design direction approved" },
@@ -66,6 +68,7 @@ async function getProjectData(rawId: string | undefined): Promise<ProjectData | 
           url: data.url || "https://vercel.com",
           updateTitle: data.update_title || "Development is underway",
           updateNotes: data.update_notes || "Milestone progress and project notes will appear here as Team DeCo publishes updates.",
+          nextMeeting: data.next_meeting || "",
           milestones: sortedMilestones.map((m: { name: string; phase: string; state: "done" | "active" | "upcoming"; detail: string }) => ({
             name: m.name,
             date: m.phase,
@@ -158,9 +161,12 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
           </article>
 
           <article className="stat-card glass">
-            <small>LAST UPDATED</small>
-            <div className="stat-word"><Clock3 size={19} /> Project update</div>
-            <p>{project.updated}</p>
+            <small>NEXT MEETING</small>
+            <div className="stat-word" style={{ fontSize: "16px", gap: "8px", color: project.nextMeeting ? "var(--ink)" : "var(--muted)" }}>
+              <CalendarDays size={19} style={{ color: "var(--blue)", flexShrink: 0 }} />
+              <span>{project.nextMeeting || "To be scheduled"}</span>
+            </div>
+            <p>{project.updated ? `Last update: ${project.updated}` : "Team DeCo project sync"}</p>
           </article>
         </div>
 

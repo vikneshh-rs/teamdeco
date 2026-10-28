@@ -65,6 +65,7 @@ export async function createProjectAction(formData: FormData) {
   const url = rawUrl || "https://vercel.com";
   const updateTitle = (formData.get("updateTitle") as string || "Project kick-off").trim();
   const updateNotes = (formData.get("updateNotes") as string || "Work has officially started on this project.").trim();
+  const nextMeeting = (formData.get("nextMeeting") as string || "").trim();
 
   if (!rawId || !name) {
     redirect("/manage/dashboard?error=" + encodeURIComponent("Project ID and Name are required."));
@@ -75,7 +76,7 @@ export async function createProjectAction(formData: FormData) {
     redirect("/manage/dashboard?error=" + encodeURIComponent("Supabase is not configured yet. Add your credentials to .env.local first."));
   }
 
-  const { error: insertError } = await supabase.from("projects").insert({
+  const projectPayload: Record<string, unknown> = {
     id: rawId,
     name,
     status,
@@ -84,7 +85,18 @@ export async function createProjectAction(formData: FormData) {
     url,
     update_title: updateTitle,
     update_notes: updateNotes,
-  });
+  };
+  if (nextMeeting) {
+    projectPayload.next_meeting = nextMeeting;
+  }
+
+  let { error: insertError } = await supabase.from("projects").insert(projectPayload);
+
+  if (insertError && insertError.message.includes("next_meeting")) {
+    delete projectPayload.next_meeting;
+    const retry = await supabase.from("projects").insert(projectPayload);
+    insertError = retry.error;
+  }
 
   if (insertError) {
     redirect("/manage/dashboard?error=" + encodeURIComponent(insertError.message));
@@ -119,6 +131,7 @@ export async function updateProjectAction(formData: FormData) {
   const rawEditUrl = (formData.get("url") as string || "").trim();
   const updateTitle = (formData.get("updateTitle") as string || "").trim();
   const updateNotes = (formData.get("updateNotes") as string || "").trim();
+  const nextMeeting = (formData.get("nextMeeting") as string || "").trim();
 
   const supabase = await createClient();
   if (!supabase) {
@@ -139,8 +152,20 @@ export async function updateProjectAction(formData: FormData) {
   }
   if (updateTitle) updateData.update_title = updateTitle;
   if (updateNotes) updateData.update_notes = updateNotes;
+  if (formData.has("nextMeeting")) {
+    updateData.next_meeting = nextMeeting || null;
+  }
 
-  const { error } = await supabase.from("projects").update(updateData).eq("id", id);
+  let { error } = await supabase.from("projects").update(updateData).eq("id", id);
+
+  if (error && error.message.includes("next_meeting")) {
+    delete updateData.next_meeting;
+    const retry = await supabase.from("projects").update(updateData).eq("id", id);
+    if (!retry.error) {
+      redirect("/manage/dashboard?error=" + encodeURIComponent("Saved updates, but please run: ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS next_meeting text; in your Supabase SQL editor to enable Next Meeting dates."));
+    }
+    error = retry.error;
+  }
 
   if (error) {
     redirect("/manage/dashboard?error=" + encodeURIComponent(error.message));

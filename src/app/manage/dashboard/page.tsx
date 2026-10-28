@@ -27,6 +27,7 @@ interface DashboardProject {
   updated_label: string;
   update_title: string;
   update_notes: string;
+  next_meeting?: string;
 }
 
 export default async function AdminDashboard({
@@ -78,6 +79,7 @@ export default async function AdminDashboard({
         updated_label: "Preview Demo",
         update_title: "Development is underway",
         update_notes: "Milestone progress and project notes will appear here as Team DeCo publishes updates.",
+        next_meeting: "Thursday · 4:00 PM IST",
       },
     ];
   }
@@ -284,9 +286,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                     </span>
                   </div>
                   <h3 style={{ font: "800 22px Manrope, sans-serif", margin: "4px 0" }}>{p.name}</h3>
-                  <div style={{ fontSize: "11px", color: "var(--muted)", display: "flex", gap: "14px", marginTop: "4px" }}>
+                  <div style={{ fontSize: "11px", color: "var(--muted)", display: "flex", gap: "14px", marginTop: "4px", flexWrap: "wrap" }}>
                     <span>Target: <a href={p.url} target="_blank" rel="noreferrer" style={{ color: "var(--blue)" }}>{p.url}</a></span>
                     <span>•</span>
+                    {p.next_meeting && (
+                      <>
+                        <span style={{ color: "var(--ink)", fontWeight: 600 }}>Next Meeting: {p.next_meeting}</span>
+                        <span>•</span>
+                      </>
+                    )}
                     <span>{p.updated_label}</span>
                   </div>
                 </div>
@@ -368,6 +376,16 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                         name="url"
                         defaultValue={p.url || ""}
                         placeholder="https://your-project.vercel.app"
+                        style={{ width: "100%", height: "42px", padding: "0 12px", border: "1px solid var(--line)", borderRadius: "10px" }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: "11px" }}>Next Meeting Date / Time</label>
+                      <input
+                        name="nextMeeting"
+                        defaultValue={p.next_meeting || ""}
+                        placeholder="e.g. 30 Oct 2026, 4:30 PM IST"
                         style={{ width: "100%", height: "42px", padding: "0 12px", border: "1px solid var(--line)", borderRadius: "10px" }}
                       />
                     </div>
@@ -463,6 +481,16 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key`}
                 name="url"
                 placeholder="https://client-preview.teamdeco.in"
                 defaultValue="https://vercel.com"
+                style={{ width: "100%", height: "46px", border: "1px solid var(--line)", borderRadius: "12px", padding: "0 14px" }}
+              />
+            </div>
+
+            <div style={{ gridColumn: "1 / -1" }}>
+              <label htmlFor="pNextMeeting">Next Meeting Date / Time (Optional)</label>
+              <input
+                id="pNextMeeting"
+                name="nextMeeting"
+                placeholder="e.g. 30 Oct 2026, 4:30 PM IST"
                 style={{ width: "100%", height: "46px", border: "1px solid var(--line)", borderRadius: "12px", padding: "0 14px" }}
               />
             </div>

@@ -14,9 +14,13 @@ create table if not exists public.projects (
   url text default 'https://vercel.com',
   update_title text default 'Development is underway',
   update_notes text default 'Milestone progress and project notes will appear here as Team DeCo publishes updates.',
+  next_meeting text default 'Thursday · 4:00 PM IST',
   created_at timestamptz not null default timezone('utc'::text, now()),
   updated_at timestamptz not null default timezone('utc'::text, now())
 );
+
+-- Ensure next_meeting column exists if table is already created
+alter table public.projects add column if not exists next_meeting text;
 
 -- 2. Create Milestones Table
 create table if not exists public.milestones (

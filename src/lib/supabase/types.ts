@@ -17,6 +17,7 @@ export interface Project {
   url: string;
   update_title: string;
   update_notes: string;
+  next_meeting?: string;
   created_at?: string;
   updated_at?: string;
   milestones?: Milestone[];
