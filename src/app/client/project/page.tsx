@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Globe2, MessageCircle, PhoneCall, CalendarDays } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Circle, CircleDot, Clock3, Globe2, MessageCircle, PhoneCall, CalendarDays, Sparkles, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 interface MilestoneItem {
@@ -127,15 +127,45 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
       </header>
 
       <section className="project-wrap">
-        <div className="project-heading">
-          <div>
-            <div className="eyebrow">CLIENT PROJECT</div>
-            <h1>{project.name}</h1>
-            <p className="project-sub">Project ID: <code>{project.id}</code></p>
+        <div className="elite-hero glass">
+          <div className="elite-top-meta">
+            <span className="elite-badge">
+              <Sparkles size={12} /> PRIVATE CLIENT SUITE · BESPOKE ENGAGEMENT
+            </span>
+            <span className="elite-id-tag">
+              PROJECT ID: <code>{project.id}</code>
+            </span>
           </div>
-          <span className="pill pill-blue">
-            <span className="status-dot" /> {project.status}
-          </span>
+
+          <div className="elite-welcome-row">
+            <div className="elite-text-block">
+              <h1 className="elite-welcome-heading">
+                <span className="welcome-playfair">Welcome,</span>
+                {project.name}
+              </h1>
+              <p className="elite-welcome-copy">
+                It is our distinct honor to engineer and craft this flagship experience alongside you. This private executive suite gives you direct, real-time insight into each milestone, sprint deliverable, and live deployment — executed with discretion, precision, and digital excellence.
+              </p>
+              <div className="elite-perks">
+                <span className="elite-perk-item">
+                  <Sparkles size={13} /> Dedicated Studio Team
+                </span>
+                <span className="elite-perk-item">
+                  <ShieldCheck size={13} /> Confidential Client Environment
+                </span>
+                <span className="elite-perk-item">
+                  <CheckCircle2 size={13} /> Direct Deployment Sync
+                </span>
+              </div>
+            </div>
+
+            <div className="elite-status-block">
+              <span className="pill pill-blue">
+                <span className="status-dot" /> {project.status}
+              </span>
+              <span className="elite-tier-label">VIP Concierge Tier</span>
+            </div>
+          </div>
         </div>
 
         <div className="stats-grid">
