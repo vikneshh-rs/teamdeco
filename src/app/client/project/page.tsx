@@ -128,10 +128,7 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
 
       <section className="project-wrap">
         <div className="elite-hero glass">
-          <div className="elite-top-meta">
-            <span className="elite-badge">
-              <Sparkles size={12} /> PRIVATE CLIENT SUITE · BESPOKE ENGAGEMENT
-            </span>
+          <div className="elite-top-meta" style={{ justifyContent: "flex-end" }}>
             <span className="elite-id-tag">
               PROJECT ID: <code>{project.id}</code>
             </span>
@@ -139,8 +136,10 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
 
           <div className="elite-welcome-row">
             <div className="elite-text-block">
-              <h1 className="elite-welcome-heading">
-                <span className="welcome-playfair">Welcome,</span>
+              <div className="welcome-line">
+                <span className="welcome-playfair">Welcome</span>
+              </div>
+              <h1 className="elite-project-title">
                 {project.name}
               </h1>
               <p className="elite-welcome-copy">
@@ -167,7 +166,6 @@ export default async function ProjectPage({ searchParams }: { searchParams: Prom
               }}>
                 <span className="status-dot" style={{ background: "#d3383b" }} /> {project.status}
               </span>
-              <span className="elite-tier-label">VIP Concierge Tier</span>
             </div>
           </div>
         </div>
